@@ -24,13 +24,14 @@ main = do
   maybeFont <- tryOpenFont "DejaVuSans.ttf" 25
   when (isNothing maybeFont) $ error "couldn't load font"
 
-  currentTime <- getCurrentTime
+  currentUTCTime <- getCurrentTime
   stdGen <- getStdGen
 
   loop Game
     { _shouldQuit = False
-    , _time = currentTime
-    , _lastDrawTime = currentTime
+    , _startUTCTime = currentUTCTime
+    , _time = 0
+    , _lastDrawTime = 0
     , _font = fromJust maybeFont
     , _heldKeys = []
     , _stdGen = stdGen
@@ -39,21 +40,22 @@ main = do
 
 loop :: Game -> IO Game
 loop game@Game{..} = do
-    currentTime <- getCurrentTime
+    currentUTCTime <- getCurrentTime
     events <- unfoldWhileM (/= NoEvent) pollEvent
 
-    let shouldDraw = currentTime `diffTime` _lastDrawTime >= frameRate
+    let time = currentUTCTime `diffTime` _startUTCTime
+        shouldDraw = time - _lastDrawTime >= frameRate
         willQuit = Quit `elem` events || _shouldQuit
         releasedKeys = mapMaybe filterKeyUp events
         pressedKeys = mapMaybe filterKeyDown events
         heldKeys = (_heldKeys ++ pressedKeys) \\ releasedKeys
         game' = execState Game.update $ game
-          { _time = currentTime
+          { _time = time
           , _lastDrawTime = if' shouldDraw currentTime _lastDrawTime
           , _heldKeys = heldKeys
           , _keyPresses = pressedKeys
           , _keyReleases = releasedKeys
-          , _deltaTime = currentTime `diffTime` _time }
+          , _deltaTime = time - _time }
     when shouldDraw $ drawEverything game'
 
     if willQuit then return game' else loop game'

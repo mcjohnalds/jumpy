@@ -13,15 +13,16 @@ data Game = Game
   { _playerHitbox :: Hitbox
   , _playerXVel :: Double
   , _playerYVel :: Double
-  , _playerJumpTime :: Maybe UTCTime -- time a jump was initiated, is Nothing when not jumping
+  , _playerJumpTime :: Maybe Double -- time a jump was initiated, is Nothing when not jumping
   , _playerAlive :: Bool
-  , _playerDeathTime :: UTCTime
+  , _playerDeathTime :: Double
   , _blocks :: [Hitbox]
   , _nextBlockGap :: Double
   , _score :: Integer
   , _shouldQuit :: Bool
-  , _time :: UTCTime
-  , _lastDrawTime :: UTCTime
+  , _startUTCTime :: UTCTime
+  , _time :: Double
+  , _lastDrawTime :: Double
   , _font :: Font
   , _heldKeys :: [SDLKey]
   , _keyPresses :: [SDLKey]

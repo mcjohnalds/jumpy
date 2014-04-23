@@ -29,7 +29,7 @@ updateGame = do
       levelSpeed .= initialLevelSpeed + 20 * (s^.gameTime) ** 0.6
       score .= floor (5 * (s^.gameTime) ** 1.3)
     else do
-      let deathTime = (s^.time) `diffTime` (s^.playerDeathTime)
+      let deathTime = (s^.time) - (s^.playerDeathTime)
       when (deathTime > deathPauseTime) resetLevel
       levelSpeed -= s^.levelSpeed * deathTime * levelSpeedSlowMult * s^.deltaTime -- gradually slow down
   updateBlocks

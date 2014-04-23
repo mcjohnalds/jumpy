@@ -43,7 +43,7 @@ updatePlayer = do
   -- jumping & ground collisions
   let collidable = filter (\b -> horizCollision p b && bottomSide p < bottomSide b) $ s^.blocks -- potential things we might fall on
       highestSide = if null collidable then screenWidth * 2 else _hbY $ highest collidable
-      jumpTime = (s^.time) `diffTime` fromJust (s^.playerJumpTime)
+      jumpTime = (s^.time) - fromJust (s^.playerJumpTime)
       canFly = isJust (s^.playerJumpTime) && jumpTime <= maxPlayerJumpTime
       touchingGround = p^.hbY + playerHeight >= highestSide
   when touchingGround $ playerYVel .= 0
