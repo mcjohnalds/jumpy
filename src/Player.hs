@@ -66,4 +66,6 @@ killPlayer = do
   playerDeathTime .= s^.time
 
 drawPlayer :: Game -> IO ()
-drawPlayer Game{_playerHitbox=Hitbox{..}} = rect _hbX _hbY _hbWidth _hbHeight $ Pixel playerColor
+drawPlayer Game{_playerHitbox=Hitbox{..}, ..} = if _playerAlive
+  then rect _hbX _hbY _hbWidth _hbHeight $ Pixel playerColor
+  else text HCenter VCenter messageX messageY _font fontColor "YOU'RE DEAD :("
