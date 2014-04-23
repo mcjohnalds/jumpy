@@ -11,6 +11,6 @@ If on linux just type `./run`, otherwise, `cabal configure` then `cabal build` w
 Todo
 ----
 
-* Profiling shows `diffTime` is using the most CPU time. Optimize it and minimize its use to once per frame.
+* `diffTime` is using 27% CPU time. Optimize it.
 * Add images, maybe animations and particle affects.
 * A proper start menu.
