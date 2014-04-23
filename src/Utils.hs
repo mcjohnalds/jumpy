@@ -30,7 +30,7 @@ rect x y w h p = do
 
 -- draw text
 text :: RealFrac a => HAlign -> VAlign -> a -> a -> Font -> Color -> String -> IO ()
-text ha va x y f c s = draw ha va x y =<< renderTextSolid f s c
+text ha va x y f c s = draw ha va x y =<< renderTextBlended f s c
 
 -- if-then-else as a function
 if' :: Bool -> a -> a -> a
