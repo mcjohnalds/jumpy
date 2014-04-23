@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# build and run with profiling enabled
+
+# TemplateHaskell requires that when profiling, the executeable must be built
+# first without profiling enabled, then again with profiling and -osuf p_o
+cabal configure &&
+cabal build &&
+cabal build --ghc-options='-prof -osuf p_o -fprof-auto -rtsopts' &&
+./dist/build/Jumpy/Jumpy +RTS -p
